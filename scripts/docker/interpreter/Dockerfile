@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM ghcr.io/ThinkportRepo/zeppelin-interpreter:0.10.0
+FROM ghcr.io/thinkportrepo/zeppelin-interpreter:0.10.0
 LABEL org.opencontainers.image.authors="Apache Software Foundation <dev@zeppelin.apache.org>"
 LABEL org.opencontainers.image.vendor="Thinkport GmbH <kontakt@thinkport.digital>"
 

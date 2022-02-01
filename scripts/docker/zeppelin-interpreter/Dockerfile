@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM ghcr.io/ThinkportRepo/zeppelin-distribution:0.10.0 AS zeppelin-distribution
+FROM ghcr.io/thinkportrepo/zeppelin-distribution:0.10.0 AS zeppelin-distribution
 
 FROM ubuntu:20.04
 
