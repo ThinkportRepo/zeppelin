@@ -16,6 +16,8 @@
 FROM ghcr.io/thinkportrepo/zeppelin-interpreter:0.10.0
 LABEL org.opencontainers.image.authors="Apache Software Foundation <dev@zeppelin.apache.org>"
 LABEL org.opencontainers.image.vendor="Thinkport GmbH <kontakt@thinkport.digital>"
+LABEL org.opencontainers.image.source https://github.com/ThinkportRepo/zeppelin
+
 
 # We need to adjust the additional s3 packages of hadoop below when changing the version
 ENV SPARK_VERSION=3.2.0

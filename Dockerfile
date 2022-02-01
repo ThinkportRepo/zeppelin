@@ -34,5 +34,7 @@ RUN echo "unsafe-perm=true" > ~/.npmrc && \
 FROM ubuntu:20.04
 LABEL org.opencontainers.image.authors="Apache Software Foundation <dev@zeppelin.apache.org>"
 LABEL org.opencontainers.image.vendor="Thinkport GmbH <kontakt@thinkport.digital>"
+LABEL org.opencontainers.image.source https://github.com/ThinkportRepo/zeppelin
+
 COPY --from=builder /opt/zeppelin /opt/zeppelin
 RUN find /opt -name log4j-1.*.jar -exec zip -d {} org/apache/log4j/net/JMSAppender.class org/apache/log4j/net/SocketServer.class \; 2>/dev/null

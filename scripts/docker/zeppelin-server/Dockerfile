@@ -29,6 +29,8 @@ FROM ubuntu:20.04
 
 LABEL org.opencontainers.image.authors="Apache Software Foundation <dev@zeppelin.apache.org>"
 LABEL org.opencontainers.image.vendor="Thinkport GmbH <kontakt@thinkport.digital>"
+LABEL org.opencontainers.image.source https://github.com/ThinkportRepo/zeppelin
+
 
 RUN set -ex && \
     apt-get -y update && \
