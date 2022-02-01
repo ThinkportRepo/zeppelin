@@ -22,6 +22,8 @@ LABEL org.opencontainers.image.source https://github.com/ThinkportRepo/zeppelin
 # We need to adjust the additional s3 packages of hadoop below when changing the version
 ENV SPARK_VERSION=3.1.2
 ENV HADOOP_VERSION=3.2
+ENV HADOOP_AWS_VERSION=3.2.0
+ENV AWS_SDK_VERSION=1.11.375
 
 WORKDIR /
 # Setting root user to allow modifications
@@ -73,8 +75,8 @@ RUN rm -f /opt/spark/jars/aws-java-sdk-bundle-1.11.*.jar && rm -f /opt/spark/jar
 
 # Download all jars for hadoop s3 integration
 # Important: The version of aws-java-sdk-bundle must match the corresponding hadoop-aws version
-RUN curl https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.3.1/hadoop-aws-3.3.1.jar -o /opt/spark/jars/hadoop-aws-3.3.1.jar && \
-    curl https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.11.901/aws-java-sdk-bundle-1.11.901.jar -o /opt/spark/jars/aws-java-sdk-bundle-1.11.901.jar && \
+RUN curl https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/${HADOOP_AWS_VERSION}/hadoop-aws-${HADOOP_AWS_VERSION}.jar -o /opt/spark/jars/hadoop-aws-${HADOOP_AWS_VERSION}.jar && \
+    curl https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/${AWS_SDK_VERSION}/aws-java-sdk-bundle-${AWS_SDK_VERSION}.jar -o /opt/spark/jars/aws-java-sdk-bundle-${AWS_SDK_VERSION}.jar && \
     curl https://repo1.maven.org/maven2/org/wildfly/openssl/wildfly-openssl/1.0.7.Final/wildfly-openssl-1.0.7.Final.jar -o /opt/spark/jars/wildfly-openssl-1.0.7.Final.jar
 
 ########################################
