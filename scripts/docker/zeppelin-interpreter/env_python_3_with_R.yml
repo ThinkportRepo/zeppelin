@@ -6,7 +6,6 @@ dependencies:
   - python=3.7
   - pycodestyle
   - psycopg2-binary
-  - chispa
   - scipy
   - numpy=1.19.5
   - grpcio
