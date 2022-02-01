@@ -20,7 +20,7 @@ LABEL org.opencontainers.image.source https://github.com/ThinkportRepo/zeppelin
 
 
 # We need to adjust the additional s3 packages of hadoop below when changing the version
-ENV SPARK_VERSION=3.2.0
+ENV SPARK_VERSION=3.1.2
 ENV HADOOP_VERSION=3.2
 
 WORKDIR /
