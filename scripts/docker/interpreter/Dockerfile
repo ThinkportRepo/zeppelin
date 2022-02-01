@@ -24,6 +24,7 @@ ENV SPARK_VERSION=3.2.0
 ENV HADOOP_VERSION=3.2
 
 WORKDIR /
+# Setting root user to allow modifications
 USER 0
 
 # support Kerberos certification
@@ -33,10 +34,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get install -
 
 # This is based on the zeppelin-interpreter image
 ENV PATH /opt/conda/envs/python_3_with_R/bin:/opt/conda/bin:$PATH
-
-#RUN python3 -m pip install --upgrade pip \
-#    && python3 -m pip install psycopg2-binary \
-#    && python3 -m pip install chispa
 
 # auto upload zeppelin interpreter lib
 RUN rm -rf /zeppelin && rm -rf /spark
