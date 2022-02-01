@@ -15,8 +15,7 @@
 
 FROM ghcr.io/thinkportrepo/zeppelin-distribution:0.10.0 AS zeppelin-distribution
 
-LABEL org.opencontainers.image.authors="Apache Software Foundation <dev@zeppelin.apache.org>"
-LABEL org.opencontainers.image.vendor="Thinkport GmbH <kontakt@thinkport.digital>"
+
 
 # Prepare all interpreter settings for Zeppelin server
 # This steps are not needed, if you you add only specific interpreters settings to your image
@@ -27,6 +26,9 @@ RUN mkdir -p /opt/zeppelin/interpreter && \
     find . -name 'interpreter-setting.json' -exec cp --parents \{\} /opt/zeppelin/interpreter \;
 
 FROM ubuntu:20.04
+
+LABEL org.opencontainers.image.authors="Apache Software Foundation <dev@zeppelin.apache.org>"
+LABEL org.opencontainers.image.vendor="Thinkport GmbH <kontakt@thinkport.digital>"
 
 RUN set -ex && \
     apt-get -y update && \

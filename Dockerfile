@@ -15,8 +15,7 @@
 # limitations under the License.
 #
 
-LABEL org.opencontainers.image.authors="Apache Software Foundation <dev@zeppelin.apache.org>"
-LABEL org.opencontainers.image.vendor="Thinkport GmbH <kontakt@thinkport.digital>"
+
 
 FROM maven:3.5-jdk-8 as builder
 ADD . /workspace/zeppelin
@@ -33,4 +32,6 @@ RUN echo "unsafe-perm=true" > ~/.npmrc && \
     rm -rf /workspace/zeppelin/*
 
 FROM ubuntu:20.04
+LABEL org.opencontainers.image.authors="Apache Software Foundation <dev@zeppelin.apache.org>"
+LABEL org.opencontainers.image.vendor="Thinkport GmbH <kontakt@thinkport.digital>"
 COPY --from=builder /opt/zeppelin /opt/zeppelin
