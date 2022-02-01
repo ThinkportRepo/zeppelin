@@ -13,13 +13,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM zeppelin-distribution:latest AS zeppelin-distribution
+FROM ghcr.io/ThinkportRepo/zeppelin-distribution:0.10.0 AS zeppelin-distribution
 
 FROM ubuntu:20.04
 
-LABEL maintainer="Apache Software Foundation <dev@zeppelin.apache.org>"
+LABEL org.opencontainers.image.authors="Apache Software Foundation <dev@zeppelin.apache.org>"
+LABEL org.opencontainers.image.vendor="Thinkport GmbH <kontakt@thinkport.digital>"
 
-ARG version="0.10.0"
+
+ARG version="0.10.1-SNAPSHOT"
 
 ENV VERSION="${version}" \
     ZEPPELIN_HOME="/opt/zeppelin"
@@ -45,13 +47,16 @@ COPY --from=zeppelin-distribution /opt/zeppelin/interpreter ${ZEPPELIN_HOME}/int
 ### COPY --from=zeppelin-distribution /opt/zeppelin/interpreter/${interpreter_name}  ${ZEPPELIN_HOME}/interpreter/${interpreter_name}
 
 
-# Decide: Install conda to manage python and R packages. Maybe adjust the packages in pip_packages.txt or conda_packages.txt
-ARG miniconda_version="py38_4.8.3"
-ARG miniconda_sha256="879457af6a0bf5b34b48c12de31d4df0ee2f06a8e68768e5758c3293b2daf688"
-# Install python and R packages via conda
-COPY conda_packages.txt /conda_packages.txt
+# Decide: Install conda to manage python and R packages. Maybe adjust the packages in pip_packages.txt or env_python_3_with_R.yaml
 # Some python packages are not available via conda, so we are using pip
+ARG miniconda_version="py37_4.9.2"
+# Hashes via https://docs.conda.io/en/latest/miniconda_hashes.html
+ARG miniconda_sha256="79510c6e7bd9e012856e25dcb21b3e093aa4ac8113d9aa7e82a86987eabe1c31"
+# Install python and R packages via conda
+COPY env_python_3_with_R.yml /env_python_3_with_R.yml
 COPY pip_packages.txt /pip_packages.txt
+# Install conda to manage python and R packages
+
 RUN set -ex && \
     wget -nv https://repo.anaconda.com/miniconda/Miniconda3-${miniconda_version}-Linux-x86_64.sh -O miniconda.sh && \
     echo "${miniconda_sha256} miniconda.sh" > anaconda.sha256 && \
@@ -60,18 +65,18 @@ RUN set -ex && \
     export PATH=/opt/conda/bin:$PATH && \
     conda config --set always_yes yes --set changeps1 no && \
     conda info -a && \
-    conda config --add channels conda-forge && \
-    conda install -y --quiet --file /conda_packages.txt && \
-    pip install -q -r /pip_packages.txt  && \
+    conda install mamba -c conda-forge && \
+    mamba env update -f /env_python_3_with_R.yml --prune && \
     # Cleanup
     rm -v miniconda.sh anaconda.sha256  && \
     # Cleanup based on https://github.com/ContinuumIO/docker-images/commit/cac3352bf21a26fa0b97925b578fb24a0fe8c383
     find /opt/conda/ -follow -type f -name '*.a' -delete && \
     find /opt/conda/ -follow -type f -name '*.js.map' -delete && \
-    conda clean -ay
+    mamba clean -ay
     # Allow to modify conda packages. This allows malicious code to be injected into other interpreter sessions, therefore it is disabled by default
     # chmod -R ug+rwX /opt/conda
-ENV PATH /opt/conda/bin:$PATH
+ENV PATH /opt/conda/envs/python_3_with_R/bin:/opt/conda/bin:$PATH
+RUN set -ex pip install -q -r /pip_packages.txt
 
 RUN mkdir -p "${ZEPPELIN_HOME}/logs" "${ZEPPELIN_HOME}/run" "${ZEPPELIN_HOME}/local-repo" && \
      # Allow process to edit /etc/passwd, to create a user entry for zeppelin
