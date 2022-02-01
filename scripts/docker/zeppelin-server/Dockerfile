@@ -13,7 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM zeppelin-distribution:latest AS zeppelin-distribution
+FROM ghcr.io/ThinkportRepo/zeppelin-distribution:0.10.0 AS zeppelin-distribution
+
+LABEL org.opencontainers.image.authors="Apache Software Foundation <dev@zeppelin.apache.org>"
+LABEL org.opencontainers.image.vendor="Thinkport GmbH <kontakt@thinkport.digital>"
 
 # Prepare all interpreter settings for Zeppelin server
 # This steps are not needed, if you you add only specific interpreters settings to your image
@@ -24,7 +27,6 @@ RUN mkdir -p /opt/zeppelin/interpreter && \
     find . -name 'interpreter-setting.json' -exec cp --parents \{\} /opt/zeppelin/interpreter \;
 
 FROM ubuntu:20.04
-LABEL maintainer="Apache Software Foundation <dev@zeppelin.apache.org>"
 
 RUN set -ex && \
     apt-get -y update && \
@@ -35,7 +37,7 @@ RUN set -ex && \
     apt-get autoclean && \
     apt-get clean
 
-ARG version="0.10.0"
+ARG version="0.10.1-SNAPSHOT"
 
 ENV LANG=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8 \

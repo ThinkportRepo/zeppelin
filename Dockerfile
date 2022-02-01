@@ -14,6 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+LABEL org.opencontainers.image.authors="Apache Software Foundation <dev@zeppelin.apache.org>"
+LABEL org.opencontainers.image.vendor="Thinkport GmbH <kontakt@thinkport.digital>"
+
 FROM maven:3.5-jdk-8 as builder
 ADD . /workspace/zeppelin
 WORKDIR /workspace/zeppelin
